@@ -1,5 +1,5 @@
 FROM debian:jessie
-RUN apt-get update && apt-get install -y ca-certificates build-essential wget libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev
+RUN apt-get update && apt-get install -y ca-certificates build-essential wget libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev curl
 RUN apt-get install -y unzip
 
 ENV NGINX_VERSION=1.15.3
@@ -7,11 +7,13 @@ ENV OPENSSL_VERSION=1.1.0i
 
 #COPY nginx-$NGINX_VERSION.tar.gz /home/nginx.tar.gz
 #COPY openssl-$OPENSSL_VERSION.tar.gz /home/openssl-$OPENSSL_VERSION.tar.gz
-ADD http://nginx.org/download/nginx-1.15.2.tar.gz /home/nginx.tar.gz
-ADD https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz /home/openssl-$OPENSSL_VERSION.tar.gz
+RUN curl https://nginx.org/download/nginx-1.15.2.tar.gz -o /home/nginx.tar.gz
+RUN curl https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz -o /home/openssl.tar.gz
 
 WORKDIR /home/
-RUN   tar xzf nginx.tar.gz && tar xzf openssl-$OPENSSL_VERSION.tar.gz && cd nginx-$NGINX_VERSION && ./configure \
+RUN   mkdir nginx && tar xzf nginx.tar.gz --strip 1 -C nginx \
+       && mkdir openssl && tar xzf openssl.tar.gz --strip 1 -C openssl \
+       && cd nginx && ./configure \
        --prefix=/usr/local/nginx \
        --sbin-path=/usr/sbin/nginx \
        --conf-path=/etc/nginx/nginx.conf \
@@ -20,7 +22,7 @@ RUN   tar xzf nginx.tar.gz && tar xzf openssl-$OPENSSL_VERSION.tar.gz && cd ngin
        --http-log-path=/var/log/nginx/access.log \
        --with-http_ssl_module \
        --with-http_v2_module \
-       --with-openssl=../openssl-$OPENSSL_VERSION \
+       --with-openssl=../openssl \
        --with-http_realip_module \
        --with-http_stub_status_module \
        --with-threads \
