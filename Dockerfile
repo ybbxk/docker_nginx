@@ -7,7 +7,7 @@ ENV OPENSSL_VERSION=1.1.0i
 
 #COPY nginx-$NGINX_VERSION.tar.gz /home/nginx.tar.gz
 #COPY openssl-$OPENSSL_VERSION.tar.gz /home/openssl-$OPENSSL_VERSION.tar.gz
-RUN curl https://nginx.org/download/nginx-NGINX_VERSION.tar.gz -o /home/nginx.tar.gz
+RUN curl https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o /home/nginx.tar.gz
 RUN curl https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz -o /home/openssl.tar.gz
 
 WORKDIR /home/
