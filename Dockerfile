@@ -29,12 +29,14 @@ RUN curl https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o /home/nginx.t
   --with-ipv6 \
   && make \
   && make install \
+  && cd /home;rm -rf /home/*.tar.gz /home/nginx /home/openssl \
   && ln -sf /dev/stdout /var/log/nginx/access.log \
   && ln -sf /dev/stderr /var/log/nginx/error.log \
   && rm -rf /etc/nginx/conf.d && ln -s /opt/nginx_conf /etc/nginx/conf.d \
   && mkdir -p /opt/nginx/htdocs && mkdir -p /opt/log/nginx && mkdir -p /opt/log/nginx \
   && chown -R www-data.www-data /opt/nginx/htdocs /opt/log/nginx \
-  && usermod -u 1000 www-data
+  && usermod -u 1000 www-data \
+  && groupmod -g 1000 www-data
 
 ADD  nginx.conf      /etc/nginx/nginx.conf
 ADD  fastcgi.conf	/etc/nginx/fastcgi.conf
