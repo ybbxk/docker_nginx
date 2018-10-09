@@ -2,7 +2,7 @@ FROM debian:jessie
 RUN apt-get update && apt-get install -y ca-certificates build-essential wget libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev curl
 RUN apt-get install -y unzip
 
-ENV NGINX_VERSION=1.15.4
+ENV NGINX_VERSION=1.15.5
 ENV OPENSSL_VERSION=1.1.1
 
 #COPY nginx-$NGINX_VERSION.tar.gz /home/nginx.tar.gz
