@@ -30,7 +30,7 @@ RUN curl https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o /home/nginx.t
   && make \
   && make install \
   && cd /home;rm -rf /home/*.tar.gz /home/nginx /home/openssl \
-  && rm -rf /etc/nginx/conf.d && ln -s /opt/nginx_conf /etc/nginx/conf.d \
+#  && rm -rf /etc/nginx/conf.d && ln -s /opt/nginx_conf /etc/nginx/conf.d \
   && mkdir -p /opt/nginx/htdocs && mkdir -p /opt/log/nginx && mkdir -p /opt/log/nginx \
   && chown -R www-data.www-data /opt/nginx/htdocs /opt/log/nginx \
   && usermod -u 1000 www-data \
@@ -41,7 +41,7 @@ ADD  fastcgi.conf	/etc/nginx/fastcgi.conf
 
 #ADD  keys      /etc/nginx/keys
 #ADD  vhosts/*    /etc/nginx/conf.d/
-VOLUME ["/opt"]
+#VOLUME ["/opt"]
 
 
 EXPOSE 80 443
